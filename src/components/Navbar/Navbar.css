@@ -1,0 +1,17 @@
+.navbar,
+.navbar-default {
+    background-color: #F96332 !important;
+    /* height: 95px; */
+}
+button.btn.btn-secondary{
+    background-color: #E19884 !important;
+    border: 0px;
+    font-weight: bold;
+    /* width: 150px; */
+}
+button.btn.btn-light{
+    border: 0px;
+    color:#333333!important ;  
+    font-weight: bold;
+    /* background-color: #E19884 !important; */
+}
