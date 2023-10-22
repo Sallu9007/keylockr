@@ -1,5 +1,5 @@
 import React from "react";
-import Relaxing from "./Img/Relax.png";
+import Relaxing from "../Img/Relax.png";
 class Relax extends React.Component {
   render() {
     return (

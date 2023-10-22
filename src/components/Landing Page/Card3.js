@@ -1,5 +1,5 @@
 import React from "react";
-import Security from "./Img/Security.png";
+import Security from "../Img/Security.png";
 
 class Card3 extends React.Component {
   render() {

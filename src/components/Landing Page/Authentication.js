@@ -1,5 +1,5 @@
 import React from "react";
-import Authenticate from "./Img/Authentication.png";
+import Authenticate from "../Img/Authentication.png";
 class Authentication extends React.Component {
   render() {
     return (

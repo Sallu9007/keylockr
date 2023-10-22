@@ -1,5 +1,5 @@
 import React from "react";
-import Passwords from "./Img/Passwords.png";
+import Passwords from "../Img/Passwords.png";
 
 class Card2 extends React.Component {
   render() {

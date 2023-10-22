@@ -1,5 +1,5 @@
 import React from "react";
-import Coffee from "./Img/Cafe.png";
+import Coffee from "../Img/Cafe.png";
 class Cafe extends React.Component {
   render() {
     return (

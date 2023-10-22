@@ -1,5 +1,5 @@
 import React from "react";
-import User from "./Img/User.png";
+import User from "../Img/User.png";
 
 class Card1 extends React.Component {
   render() {

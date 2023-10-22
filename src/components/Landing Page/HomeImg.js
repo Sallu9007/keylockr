@@ -1,5 +1,5 @@
 import React from "react";
-import HomeIm from "./Img/HomeImg.png";
+import HomeIm from "../Img/HomeImg.png";
 class HomeImg extends React.Component {
   render() {
     return (
