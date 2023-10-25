@@ -65,16 +65,16 @@ router.post("/login", async (req, res) => {
                 const token = await userValid.generateAuthtoken();
 
                 // cookiegenerate
-                res.cookie("usercookie",token,{
-                    expires:new Date(Date.now()+9000000),
-                    httpOnly:true
+                res.cookie("usercookie", token, {
+                    expires: new Date(Date.now()+9000000),
+                    httpOnly: true
                 });
 
                 const result = {
                     userValid,
                     token
                 }
-                res.status(201).json({status:201,result})
+                res.status(201).json({ status:201, result })
             }
         }
 
