@@ -1,6 +1,8 @@
 import React from "react";
 // import nav from './Navbar.css';
 import style from "../../bootstrap/css/bootstrap.min.css";
+import Header from "./Header";
+import HomePage from "../Home Page/HomePage";
 import OnboardingNavigators from "./OnboardingNavigators.js";
 
 
@@ -12,7 +14,8 @@ class NavigationBar extends React.Component {
           <a className="navbar-brand fw-bold fs-2 text-light" href="#">
             KeyLockr
           </a>
-          <OnboardingNavigators />
+          {/* <OnboardingNavigators/> */}
+          {HomePage? <Header /> : <OnboardingNavigators/>}
         </div>
       </nav>
     );

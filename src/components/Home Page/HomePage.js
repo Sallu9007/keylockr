@@ -1,8 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Navbar from "../Navbar/Navbar";
+import Header from '../Navbar/Header';
 import { useNavigate } from 'react-router-dom';
+import { LoginContext } from '../ContextProvider/context';
 
 const HomePage = () => {
+    const {loginData, setLoginData} = useContext(LoginContext)
+
     const history = useNavigate()
 
     const HomeValid = async() => {
@@ -24,6 +28,7 @@ const HomePage = () => {
         }
         else{
             console.log("User verified");
+            setLoginData(data)
             history("/home")
         }
     }
@@ -34,10 +39,13 @@ const HomePage = () => {
 
     return(
         <>
-        <Navbar />
-            <div>Home Page</div>
+        <Navbar>
+            <div>
+                <h2>Home Page</h2>
+            </div>
+        </Navbar>
         </>
     )
 }
 
-export default HomePage
+export default HomePage;

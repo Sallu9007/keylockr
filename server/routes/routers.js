@@ -135,5 +135,20 @@ router.get("/validuser", authenticate, async(req, res) => {
     }
 })
 
+// user logout
+router.get("/logout", authenticate, async(req, res) => {
+    try {
+        req.rootUser.token = req.rootUser.token.filter((curelem) => {
+            return curelem.token != req.token
+        })
+
+        res.clearCookie("usercookie", {path: "/"});
+        req.rootUser.save()
+        res.status(201).json(req.rootUser.token)
+    } catch (error) {
+        res.status(201).json({status: 401, error})
+    }
+})
+
 
 module.exports = router;
