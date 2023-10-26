@@ -3,6 +3,7 @@ const router = new express.Router();
 const userdb = require("../models/userSchema")
 const userPass = require("../models/passwordSchema")
 const bcrypt = require("bcryptjs")
+const authenticate = require("../middleware/authenticate")
 
 
 router.post("/register",async(req,res)=>{
@@ -124,7 +125,15 @@ router.post("/generatepass",async(req,res)=>{
     }
 });
 
-
+// uservalid
+router.get("/validuser", authenticate, async(req, res) => {
+    try {
+        const validUserOne = await userdb.findOne({_id: req.userId});
+        res.status(201).json({status: 201, validUserOne});
+    } catch (error) {
+        res.status(401).json({status: 401, error});
+    }
+})
 
 
 module.exports = router;

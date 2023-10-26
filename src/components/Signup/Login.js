@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { NavLink ,useNavigate} from "react-router-dom"
+import { NavLink, useNavigate} from "react-router-dom"
 import { ToastContainer, toast } from 'react-toastify';
 import "./mix.css"
 import Navbar from "../Navbar/Navbar";
@@ -69,7 +69,7 @@ const Login = () => {
 
             if(res.status === 201){
                 localStorage.setItem("usersdatatoken",res.result.token);
-                history("/home")
+                history("/home");
                 setInpval({...inpval,email:"",password:""});
             }
         }

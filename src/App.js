@@ -5,6 +5,7 @@ import Register from './components/Signup/Register';
 import Login from './components/Signup/Login';
 import HomePage from './components/Home Page/HomePage';
 import GeneratePass from './components/generatePassword/GeneratePass';
+import Error from './components/Error/error';
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
       <Route path='/login' element = {<Login/>} />
       <Route path='/home' element = {<HomePage/>} />
       <Route path='/generatepass' element = {<GeneratePass/>} />
+      <Route path='*' element = {<Error/>} />
     </Routes>
     </>
   );
