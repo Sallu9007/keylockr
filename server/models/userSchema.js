@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema({
         type:String,
         required:true,
         minlength:6
-    },
+    }, 
     token:[
         {
             token:{
@@ -38,7 +38,7 @@ const userSchema = new mongoose.Schema({
                 required:true
             }
         }
-    ]
+    ]  
 });
 
 
@@ -69,7 +69,4 @@ userSchema.methods.generateAuthtoken = async function(){
 }
 
 const userdb = new mongoose.model("Users",userSchema)
-
-
-
 module.exports = userdb;
