@@ -1,18 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Navbar from "../Navbar/Navbar";
-import { NavLink } from "react-router-dom"
 import Header from '../Navbar/Header';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import { LoginContext } from '../ContextProvider/context';
+import { CircularProgress, Box } from '@mui/material';
 import "../Signup/mix.css"
 const CryptoJS = require("crypto-js")
 
 const HomePage = () => {
     const {loginData, setLoginData} = useContext(LoginContext)
-    const [data,setData]=useState([])
-    const [passShow, setPassShow] = useState(false);
+    const [ load, setLoad ] = useState(false);
+    const [ data, setData] = useState([])
+    const [ showPasswords, setShowPasswords ] = useState(false);
 
-  
     const history = useNavigate()
 
     const HomeValid = async() => {
@@ -26,79 +26,102 @@ const HomePage = () => {
             },
         });
 
-        const data = await res.json();
+        const load = await res.json();
         
         // Navigate user after checking validation
-        if(data.status == 401 || !data){
+        if(load.status == 401 || !load){
             history("*")
         }
         else{
             console.log("User verified");
-            setLoginData(data)
-            // console.log(data);
+            setLoginData(load)
             history("/home")
         }
     }
 
     useEffect(() => {
-        HomeValid()
+        setTimeout(() => {
+          HomeValid();
+          setLoad(true)
+        }, 2000)
+    }, []);
+
+    useEffect(() => {
+        fetch("/getAllPass", {
+            method: "GET",
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            console.log(data, "Passwords");
+            setLoginData(data.data)
+        })
     }, [])
 
-    useEffect(()=>{
-        fetch("/getAllPass",{
-            method:"GET",
-        })
-        .then((res)=>res.json())
-        .then((data)=>{
-            console.log(data, "Passwords");
-            setData(data.data)
-        })
-    },[])
-    
-    const addpass =()=>{
+    const addpass = () => {
         history("/generatepass")
     }
 
-
-    const getDecryptedValue =(i)=>{
-        var decrypted = CryptoJS.AES.decrypt(i.password,"hello");
+    const getDecryptedValue =(index)=>{
+        var decrypted = CryptoJS.AES.decrypt(index.password,"hello");
         var plaintext = decrypted.toString(CryptoJS.enc.Utf8)
         return(
-        <>
-        <form>
-
-            <input type={!passShow ? "password" : "text"} value={plaintext} readOnly></input>
-            <div className="showpass" onClick={() => setPassShow(!passShow)}>
-                                    {!passShow ? "Show" : "Hide"}
-                                </div>
-        </form>
-        </>
-            )
+            plaintext
+            // <>
+                // {/* <div>{!passShow? <div className="hidePass">********</div> : <div className='showPass'id={'show'+{i}}>{plaintext}</div>}</div> */}
+                // {/* <div>{showPasswords.includes(index) ? plaintext : '***dsfdsf***'}</div> */}
+            // </>
+        )
     }
+
+    const togglePasswordVisibility = (index) => {
+        setShowPasswords((prevPasswords) => {
+          const updatedPasswords = [...prevPasswords];
+          const passwordIndex = updatedPasswords.indexOf(index);
+    
+          if (passwordIndex !== -1) {
+            updatedPasswords.splice(passwordIndex, 1);
+          } else {
+            updatedPasswords.push(index);
+          }
+    
+          return updatedPasswords;
+        });
+    };
+    
     return(
         <>
-        <Navbar />
-        <button className='btn'onClick={addpass}>Add Password</button>
-            <div className='d-flex justify-content-center'>
-                {/* <h2>Home Page</h2> */}
-                <table style={{width: 700}}>
-                    <tr>
-                        <th>Website</th>
-                        <th>PassWord</th>
-                    </tr>
-                    {data?.map((i)=>{
-                        return(
-                            <tr style={{height: 100}}>
-                                <td><a href={i.weblink}>{i.webname}</a></td>
-                                {/* <td>{i.weblink}</td> */}
-                                
-                                <td>{getDecryptedValue(i)}</td>
-                               
-                            </tr>
-                        )
-                    })}
-                </table>
-            </div>
+        {
+            load ?
+            (
+                <>
+                    <Navbar />
+            <button className='btn'onClick={addpass}>Add Password</button>
+                <div className='d-flex justify-content-center'>
+                    {/* <h2>Home Page</h2> */}
+                    <table style={{width: 700}}>
+                        <tr>
+                            <th>Website</th>
+                            <th>PassWord</th>
+                            <th>Action</th>
+                        </tr>
+                        {data?.map((website,index)=>{
+                            return(
+                                <tr key={index} style={{height: 100}}>
+                                    <td><a href={website.weblink}>{website.webname}</a></td>
+                                    <td><div>{showPasswords.includes(index) ? getDecryptedValue(website) : '******'}</div></td>
+                                    <td><button className='btn bg-primary text-dark text-center ms-auto mt-3 fw-bold' onClick={() => togglePasswordVisibility(index)}>{showPasswords.includes(index) ? 'Hide' : 'Show'}</button></td>                               
+                                </tr>
+                            )
+                        })}
+                    </table>
+                </div>
+                </>
+            ):
+            <Box textAlign={"center"} marginTop={35} fontSize={40}>
+                Loading... &nbsp;
+                <CircularProgress />
+            </Box>
+        }
         </>
     )
 }

@@ -14,8 +14,8 @@ class NavigationBar extends React.Component {
           <a className="navbar-brand fw-bold fs-2 text-light" href="#">
             KeyLockr
           </a>
-          {/* <OnboardingNavigators/> */}
-          {HomePage? <Header /> : <OnboardingNavigators/>}
+          <OnboardingNavigators/>
+          {/* {HomePage? <Header /> : <OnboardingNavigators/>} */}
         </div>
       </nav>
     );

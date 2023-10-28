@@ -1,15 +1,31 @@
 // If user not valid then redirect to this page
 
 import React from "react";
-import Navbar from "../Navbar/Navbar";
+import { NavLink } from "react-router-dom";
 
 const Error = () => {
-    return (
-        <>
-        <Navbar />
-            <div>Error</div>            
-        </>
-    )
-}
+  return (
+    <>
+      <div className="container">
+        <div
+          style={{
+            minHeight: "85vh",
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          {/* <h1 className="mb-3">404 ERROR </h1> */}
+          <h2 className="mb-3">PAGE NOT FOUND</h2>
+          <NavLink to="/home" className="btn btn-primary" style={{ fontSize: 18 }}>
+            {" "}
+            Back To Home Page{" "}
+          </NavLink>
+        </div>
+      </div>
+    </>
+  );
+};
 
-export default Error
+export default Error;
