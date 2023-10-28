@@ -33,7 +33,7 @@ const GeneratePass = () => {
     const addPassworddata = async (e) => {
         e.preventDefault();
         // console.log("here");
-        
+        // const userId = req.userId;
         const { webname, weblink, password, cpassword } = inpval;
         
         if (webname === "") {
@@ -67,9 +67,8 @@ const GeneratePass = () => {
             });
         } else {
             // console.log("user registration succesfully done");
-            
-            
             // console.log("hedsfsdre");
+
             const data = await fetch("/generatepass", {
                 method: "POST",
                 headers: {

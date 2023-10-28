@@ -3,6 +3,7 @@ const router = new express.Router();
 const userdb = require("../models/userSchema")
 const userPass = require("../models/passwordSchema")
 const bcrypt = require("bcryptjs")
+const jwt = require("jsonwebtoken");
 const authenticate = require("../middleware/authenticate")
 
 
@@ -86,9 +87,9 @@ router.post("/login", async (req, res) => {
     }
 });
 
-
 router.post("/generatepass",async(req,res)=>{
     // console.log("HErE");
+    // console.log(validUserOne);
 
     const { webname, weblink, password, cpassword } = req.body;
     console.log(req.body);
@@ -110,6 +111,7 @@ router.post("/generatepass",async(req,res)=>{
             const finalPass = new userPass({
                 webname, weblink, password
             });
+            // console.log(finalPass);
 
             // here password hasing
 
@@ -121,7 +123,7 @@ router.post("/generatepass",async(req,res)=>{
 
     } catch (error) {
         res.status(422).json(error);
-        console.log("catch block error");
+        console.log("save catch block error");
     }
 });
 
@@ -129,6 +131,10 @@ router.post("/generatepass",async(req,res)=>{
 router.get("/validuser", authenticate, async(req, res) => {
     try {
         const validUserOne = await userdb.findOne({_id: req.userId});
+        // console.log(req.userId);
+        // console.log(userId);
+        // console.log(_id);
+        // console.log(validUserOne);
         res.status(201).json({status: 201, validUserOne});
     } catch (error) {
         res.status(401).json({status: 401, error});
@@ -147,6 +153,16 @@ router.get("/logout", authenticate, async(req, res) => {
         res.status(201).json(req.rootUser.token)
     } catch (error) {
         res.status(201).json({status: 401, error})
+    }
+})
+
+router.get("/getAllPass", async(req,res)=>{
+    try {
+        const AllPass = await userPass.find({});
+        // console.log(AllPass);
+        res.send({status:"ok", data:AllPass})
+    } catch (error) {
+        console.log("error in fetch");
     }
 })
 

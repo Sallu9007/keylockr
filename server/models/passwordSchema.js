@@ -18,11 +18,12 @@ const passwordSchema = new mongoose.Schema({
         required:true,
         minlength:6
     }
-});
+},
+);
 
 
 passwordSchema.pre("save", async function (next) {
-    console.log("hejrhwek");
+    // console.log("hejrhwek");
 
     if (this.isModified("password")) {
         this.password = CryptoJS.AES.encrypt(this.password,"hello");
