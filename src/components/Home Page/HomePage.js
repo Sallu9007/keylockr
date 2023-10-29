@@ -5,12 +5,14 @@ import Header from '../Navbar/Header';
 import { useNavigate } from 'react-router-dom';
 import { LoginContext } from '../ContextProvider/context';
 import "../Signup/mix.css"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const CryptoJS = require("crypto-js")
 
 const HomePage = () => {
     const {loginData, setLoginData} = useContext(LoginContext)
     const [data,setData]=useState([])
-    const [passShow, setPassShow] = useState(false);
+    const [showPasswords, setShowPasswords] = useState([]);
 
   
     const history = useNavigate()
@@ -60,21 +62,43 @@ const HomePage = () => {
     }
 
 
-    const getDecryptedValue =(i)=>{
-        var decrypted = CryptoJS.AES.decrypt(i.password,"hello");
+    const getDecryptedValue =(index)=>{
+        var decrypted = CryptoJS.AES.decrypt(index.password,"hello");
         var plaintext = decrypted.toString(CryptoJS.enc.Utf8)
         return(
-        <>
-        <form>
-
-            <input type={!passShow ? "password" : "text"} value={plaintext} readOnly></input>
-            <div className="showpass" onClick={() => setPassShow(!passShow)}>
-                                    {!passShow ? "Show" : "Hide"}
-                                </div>
-        </form>
-        </>
+            plaintext
+        // <>
+        // {/* <div>{!passShow? <div className="hidePass">********</div> : <div className='showPass'id={'show'+{i}}>{plaintext}</div>}</div> */}
+        // {/* <div>{showPasswords.includes(index) ? plaintext : '***dsfdsf***'}</div> */}
+        // </>
             )
     }
+    const copyToClipboard = (password) => {
+        navigator.clipboard.writeText(password)
+          .then(() => {
+            toast.success("Password copied to clipboard!", {
+                position: "top-center"
+            });
+            // alert('Password copied to clipboard!');
+          })
+          .catch((error) => {
+            console.error('Failed to copy password: ', error);
+          });
+      };
+    const togglePasswordVisibility = (index) => {
+        setShowPasswords((prevPasswords) => {
+          const updatedPasswords = [...prevPasswords];
+          const passwordIndex = updatedPasswords.indexOf(index);
+    
+          if (passwordIndex !== -1) {
+            updatedPasswords.splice(passwordIndex, 1);
+          } else {
+            updatedPasswords.push(index);
+          }
+    
+          return updatedPasswords;
+        });
+      };
     return(
         <>
         <Navbar />
@@ -85,15 +109,17 @@ const HomePage = () => {
                     <tr>
                         <th>Website</th>
                         <th>PassWord</th>
+                        <th className='d-flex justify-content-center'>Action</th>
                     </tr>
-                    {data?.map((i)=>{
+                    {data?.map((website,index)=>{
                         return(
-                            <tr style={{height: 100}}>
-                                <td><a href={i.weblink}>{i.webname}</a></td>
-                                {/* <td>{i.weblink}</td> */}
-                                
-                                <td>{getDecryptedValue(i)}</td>
-                               
+                            <tr key={index} style={{height: 100}}>
+                                <td><a href={website.weblink}>{website.webname}</a></td>
+                                <td><div>{showPasswords.includes(index) ? getDecryptedValue(website) : '******'}</div></td>
+                                <td><div className='d-flex'><button className='btn bg-primary text-dark text-center ms-auto mt-3 fw-bold' onClick={() => togglePasswordVisibility(index)}>{showPasswords.includes(index) ? 'Hide' : 'Show'}</button>
+                                <button className='btn bg-primary text-dark text-center ms-auto mt-3 fw-bold' onClick={() => copyToClipboard(getDecryptedValue(website))}>Copy</button>
+                                <button className='btn bg-primary text-dark text-center ms-auto mt-3 fw-bold' onClick={() => copyToClipboard(getDecryptedValue(website))}>Delete</button></div>
+                                </td>                               
                             </tr>
                         )
                     })}
