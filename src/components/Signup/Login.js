@@ -65,10 +65,12 @@ const Login = () => {
             });
 
             const res = await data.json();
-             console.log(res);
+            // console.log(res.result.userValid._id);
 
             if(res.status === 201){
+                
                 localStorage.setItem("usersdatatoken",res.result.token);
+                console.log(localStorage.getItem('usersdatatoken'));
                 history("/home");
                 setInpval({...inpval,email:"",password:""});
             }

@@ -9,6 +9,7 @@ const GeneratePass = () => {
 
     const [passShow, setPassShow] = useState(false);
     const [cpassShow, setCPassShow] = useState(false);
+    const [UserData, setUserData] = useState([]);
 
     const [inpval, setInpval] = useState({
         webname: "",
@@ -16,7 +17,6 @@ const GeneratePass = () => {
         password: "",
         cpassword: ""
     });
-
 
     const setVal = (e) => {
         // console.log(e.target.value);
@@ -82,6 +82,9 @@ const GeneratePass = () => {
             const res = await data.json();
             console.log(data);
             console.log(res);
+            // console.log(cookie.usercookie);
+
+
 
             if (res.status === 201) {
                 toast.success("Password Successfully Added 😃!", {
@@ -153,6 +156,7 @@ return (
                             </div>
                         </div>
                         <button className='btn' onClick={addPassworddata}>Save</button>
+                        {/* <button className='btn' onClick={getUserData}>getdata</button> */}
                         <button className='btn' onClick={genPass}>GeneratePass</button>
                     </form>
                     <ToastContainer />

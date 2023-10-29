@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 const authenticate = require("../middleware/authenticate")
 
 
+
 router.post("/register",async(req,res)=>{
     const { fname, email, password, cpassword } = req.body;
 
@@ -52,7 +53,6 @@ router.post("/login", async (req, res) => {
     if (!email || !password) {
         res.status(422).json({ error: "fill all the details" })
     }
-
     try {
        const userValid = await userdb.findOne({email:email});
 
@@ -70,7 +70,8 @@ router.post("/login", async (req, res) => {
                 // cookiegenerate
                 res.cookie("usercookie", token, {
                     expires: new Date(Date.now()+9000000),
-                    httpOnly: true
+                    httpOnly: true,
+                    path:'/'
                 });
 
                 const result = {
@@ -78,6 +79,8 @@ router.post("/login", async (req, res) => {
                     token
                 }
                 res.status(201).json({ status:201, result })
+                // res.send(`Cookie ${result}`)
+                // console.log(req.cookie.usercookie);
             }
         }
 
@@ -87,12 +90,34 @@ router.post("/login", async (req, res) => {
     }
 });
 
+const getUserData = async() => {
+    console.log("hkre");
+    // console.log(localStorage.getItem('usersdatatoken'));
+    let token = localStorage.getItem("usersdatatoken");
+
+    const res = await fetch("/validuser", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": token,
+        },
+    });
+
+    const UserDatajs = await res.json();
+    console.log(UserDatajs.validUserOne._id);
+    // setUserData(UserDatajs)
+    return(UserDatajs.validUserOne._id)
+    // console.log(load.validUserOne._id);
+}
+
 router.post("/generatepass",async(req,res)=>{
     // console.log("HErE");
-    // console.log(validUserOne);
+    // res.send(validUserOne);
 
     const { webname, weblink, password, cpassword } = req.body;
     console.log(req.body);
+    const UserId = getUserData()
+    console.log(UserId);
 
     if (!webname || !weblink || !password ) {
         res.status(422).json({ error: "fill all the details" })
@@ -109,7 +134,8 @@ router.post("/generatepass",async(req,res)=>{
             res.status(422).json({ error: "Password and Confirm Password Not Match" })
         } else {
             const finalPass = new userPass({
-                webname, weblink, password
+                
+                UserId,webname, weblink, password
             });
             // console.log(finalPass);
 
@@ -134,7 +160,7 @@ router.get("/validuser", authenticate, async(req, res) => {
         // console.log(req.userId);
         // console.log(userId);
         // console.log(_id);
-        // console.log(validUserOne);
+        // console.log(validUserOne._id);
         res.status(201).json({status: 201, validUserOne});
     } catch (error) {
         res.status(401).json({status: 401, error});
@@ -156,9 +182,22 @@ router.get("/logout", authenticate, async(req, res) => {
     }
 })
 
+
 router.get("/getAllPass", async(req,res)=>{
     try {
         const AllPass = await userPass.find({});
+        // console.log(AllPass);
+        res.send({status:"ok", data:AllPass})
+    } catch (error) {
+        console.log("error in fetch");
+    }
+})
+
+router.get("/getAllUsers", authenticate, async(req,res)=>{
+    try {
+        // res.send(`id:${req.rootUser.userId}`)
+        // console.log(`id:${req.rootUser.userId}`)
+        const AllPass = await userdb.find({});
         // console.log(AllPass);
         res.send({status:"ok", data:AllPass})
     } catch (error) {

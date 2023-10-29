@@ -3,6 +3,10 @@ const CryptoJS = require("crypto-js")
 
 
 const passwordSchema = new mongoose.Schema({
+    UserId:{
+        type:String,
+        trim:true
+    },
     webname:{
         type:String,
         required:true,

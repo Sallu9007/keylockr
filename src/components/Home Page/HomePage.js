@@ -29,6 +29,7 @@ const HomePage = () => {
         });
 
         const load = await res.json();
+        // console.log(load.validUserOne._id);
         
         // Navigate user after checking validation
         if(load.status == 401 || !load){
@@ -36,6 +37,7 @@ const HomePage = () => {
         }
         else{
             console.log("User verified");
+            // console.log(req.cookie.usercookie);
             setLoginData(load)
             history("/home")
         }
@@ -62,6 +64,7 @@ const HomePage = () => {
     const addpass = () => {
         history("/generatepass")
     }
+    
 
 
     const getDecryptedValue =(index)=>{
@@ -116,7 +119,7 @@ const HomePage = () => {
                 <table style={{width: 700}}>
                     <tr>
                         <th>Website</th>
-                        <th>PassWord</th>
+                        <th>PassWord {load.validUserOne}</th>
                         <th className='d-flex justify-content-center'>Action</th>
                     </tr>
                     {data?.map((website,index)=>{
