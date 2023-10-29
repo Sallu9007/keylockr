@@ -13,7 +13,7 @@ const HomePage = () => {
     const {loginData, setLoginData} = useContext(LoginContext)
     const [ load, setLoad ] = useState(false);
     const [ data, setData] = useState([])
-    const [ showPasswords, setShowPasswords ] = useState(false);
+    const [ showPasswords, setShowPasswords ] = useState([]);
 
     const history = useNavigate()
 
@@ -55,7 +55,7 @@ const HomePage = () => {
         .then((res) => res.json())
         .then((data) => {
             console.log(data, "Passwords");
-            setLoginData(data.data)
+            setData(data.data)
         })
     }, [])
 
