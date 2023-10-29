@@ -90,34 +90,14 @@ router.post("/login", async (req, res) => {
     }
 });
 
-const getUserData = async() => {
-    console.log("hkre");
-    // console.log(localStorage.getItem('usersdatatoken'));
-    let token = localStorage.getItem("usersdatatoken");
-
-    const res = await fetch("/validuser", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": token,
-        },
-    });
-
-    const UserDatajs = await res.json();
-    console.log(UserDatajs.validUserOne._id);
-    // setUserData(UserDatajs)
-    return(UserDatajs.validUserOne._id)
-    // console.log(load.validUserOne._id);
-}
 
 router.post("/generatepass",async(req,res)=>{
     // console.log("HErE");
     // res.send(validUserOne);
 
-    const { webname, weblink, password, cpassword } = req.body;
-    console.log(req.body);
-    const UserId = getUserData()
-    console.log(UserId);
+    const { UserId, webname, weblink, password, cpassword } = req.body;
+    // console.log(req.body);
+    // console.log(UserId);
 
     if (!webname || !weblink || !password ) {
         res.status(422).json({ error: "fill all the details" })
@@ -185,8 +165,8 @@ router.get("/logout", authenticate, async(req, res) => {
 
 router.get("/getAllPass", async(req,res)=>{
     try {
-        const AllPass = await userPass.find({});
-        // console.log(AllPass);
+        const UserId = await req.header('userID')
+        const AllPass = await userPass.find({UserId:UserId});
         res.send({status:"ok", data:AllPass})
     } catch (error) {
         console.log("error in fetch");
@@ -203,6 +183,24 @@ router.get("/getAllUsers", authenticate, async(req,res)=>{
     } catch (error) {
         console.log("error in fetch");
     }
+})
+
+router.post("/deletePass", async(req,res)=>{
+    console.log(req.body.id);
+    const PassId = req.body.id
+    console.log(PassId);
+    try {
+        userPass.deleteOne({_id:PassId},function(err,res){
+            console.log(err);
+        })
+        res.send({status:"ok", data:"Deleted"})
+
+        
+    } catch (error) {
+        console.log("cant delete")
+        
+    }
+
 })
 
 

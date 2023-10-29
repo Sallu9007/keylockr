@@ -4,6 +4,10 @@ import Header from '../Navbar/Header';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { LoginContext } from '../ContextProvider/context';
 import { CircularProgress, Box } from '@mui/material';
+import { faEye, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCopy } from '@fortawesome/free-solid-svg-icons';
 import "../Signup/mix.css"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -42,6 +46,7 @@ const HomePage = () => {
             history("/home")
         }
     }
+    
 
     useEffect(() => {
         setTimeout(() => {
@@ -50,16 +55,44 @@ const HomePage = () => {
         }, 2000)
     }, []);
 
-    useEffect(() => {
+    const getPasswords = async()=>{
+        let token = localStorage.getItem("usersdatatoken");
+    
+        const res = await fetch("/validuser", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": token,
+            },
+        });
+    
+        const UserDatajs = await res.json();
+        const User_id = UserDatajs.validUserOne._id
+        // console.log(`this is sent to allpass${User_id}`);
+        // useEffect(() => {
         fetch("/getAllPass", {
             method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                userID: User_id,
+            },
+            // body: JSON.stringify({
+            //     User_id
+            // })
         })
         .then((res) => res.json())
         .then((data) => {
-            console.log(data, "Passwords");
+            // console.log(data, "Passwords");
             setData(data.data)
         })
-    }, [])
+    // }, [])
+
+
+    }
+
+    // useEffect(() => {
+    //     getPasswords()
+    // }, [])
 
     const addpass = () => {
         history("/generatepass")
@@ -91,6 +124,27 @@ const HomePage = () => {
                 // {/* <div>{showPasswords.includes(index) ? plaintext : '***dsfdsf***'}</div> */}
             // </>
        
+    const deletePass=(id,name)=>{
+        console.log(id);
+        if(window.confirm(`Are you Sure You want to delete "${name}"`)){
+            fetch("/deletePass",{
+                method:"POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                   id
+                })
+            })
+            .then((res)=>res.json())
+            .then((data)=>{
+                alert(data.data)
+            })
+        }else{
+
+        }
+
+    }
 
     const togglePasswordVisibility = (index) => {
         setShowPasswords((prevPasswords) => {
@@ -113,7 +167,9 @@ const HomePage = () => {
             (
             <>
             <Navbar />
+            {/* {getPasswords} */}
             <button className='btn'onClick={addpass}>Add Password</button>
+            <button className='btn'onClick={getPasswords}>Show Passwords</button>
             <div className='d-flex justify-content-center'>
                 {/* <h2>Home Page</h2> */}
                 <table style={{width: 700}}>
@@ -127,9 +183,9 @@ const HomePage = () => {
                             <tr key={index} style={{height: 100}}>
                                 <td><a href={website.weblink}>{website.webname}</a></td>
                                 <td><div>{showPasswords.includes(index) ? getDecryptedValue(website) : '******'}</div></td>
-                                <td><div className='d-flex'><button className='btn bg-primary text-dark text-center ms-auto mt-3 fw-bold' onClick={() => togglePasswordVisibility(index)}>{showPasswords.includes(index) ? 'Hide' : 'Show'}</button>
-                                <button className='btn bg-primary text-dark text-center ms-auto mt-3 fw-bold' onClick={() => copyToClipboard(getDecryptedValue(website))}>Copy</button>
-                                <button className='btn bg-primary text-dark text-center ms-auto mt-3 fw-bold' onClick={() => copyToClipboard(getDecryptedValue(website))}>Delete</button></div>
+                                <td><div className='d-flex justify-content-center'><i className='me-4 '  onClick={() => togglePasswordVisibility(index)}>{showPasswords.includes(index) ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} style={{color:"#ff4d00"}} />}</i>
+                                <i className='me-4'  onClick={() => copyToClipboard(getDecryptedValue(website))}><FontAwesomeIcon icon={faCopy} /></i>
+                                <i className='me-4' onClick={() => deletePass(website._id,website.webname)}><FontAwesomeIcon icon={faTrash}/></i></div>
                                 </td>                               
                             </tr>
                         )

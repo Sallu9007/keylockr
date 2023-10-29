@@ -17,6 +17,26 @@ const GeneratePass = () => {
         password: "",
         cpassword: ""
     });
+    const getUserData = async() => {
+        // console.log("hkre");
+        // console.log(localStorage.getItem('usersdatatoken'));
+        let token = localStorage.getItem("usersdatatoken");
+    
+        const res = await fetch("/validuser", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": token,
+            },
+        });
+    
+        const UserDatajs = await res.json();
+        const User_id = UserDatajs.validUserOne._id
+        // console.log(`this is ID: ${UserDatajs.validUserOne._id}`);
+        // console.log(`this is ID: ${User_id}`);
+        return(User_id)
+        // console.log(load.validUserOne._id);
+    }
 
     const setVal = (e) => {
         // console.log(e.target.value);
@@ -34,6 +54,8 @@ const GeneratePass = () => {
         e.preventDefault();
         // console.log("here");
         // const userId = req.userId;
+        const UserId = await getUserData()
+        // console.log(`i got this id${UserId}`);
         const { webname, weblink, password, cpassword } = inpval;
         
         if (webname === "") {
@@ -75,13 +97,14 @@ const GeneratePass = () => {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    webname, weblink, password, cpassword
+
+                    UserId,webname, weblink, password, cpassword
                 })
             });
 
             const res = await data.json();
-            console.log(data);
-            console.log(res);
+            // console.log(data);
+            // console.log(res);
             // console.log(cookie.usercookie);
 
 
@@ -114,7 +137,7 @@ const GeneratePass = () => {
     while(length > genpassword.length){
         genpassword += allChars[Math.floor(Math.random()* allChars.length)]
     }
-    console.log(genpassword);
+    // console.log(genpassword);
     setInpval({...inpval,password: genpassword, cpassword: genpassword})
 }
 

@@ -34,7 +34,7 @@ const Header = () => {
         });
 
         const data = await res.json();
-        console.log(data)
+        // console.log(data)
         
         // Navigate user after checking validation
         if(data.status == !201){

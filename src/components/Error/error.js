@@ -18,7 +18,7 @@ const Error = () => {
         >
           {/* <h1 className="mb-3">404 ERROR </h1> */}
           <h2 className="mb-3">PAGE NOT FOUND</h2>
-          <NavLink to="/home" className="btn btn-primary" style={{ fontSize: 18 }}>
+          <NavLink to="/" className="btn btn-primary" style={{ fontSize: 18 }}>
             {" "}
             Back To Home Page{" "}
           </NavLink>
