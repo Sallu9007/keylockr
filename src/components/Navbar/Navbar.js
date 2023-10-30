@@ -21,7 +21,7 @@ class NavigationBar extends React.Component {
     return (
       <nav className="navbar navbar-expand-lg bg-body-tertiary bg-primary">
         <div className="container-fluid overflow-hidden">
-          <a className="navbar-brand fw-bold fs-2 text-light" href="#">
+          <a className="navbar-brand fw-bold fs-2 text-light" href="/home">
             KeyLockr
           </a>
           {/* <OnboardingNavigators/> */}
