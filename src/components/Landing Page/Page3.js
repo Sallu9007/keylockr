@@ -1,6 +1,8 @@
 import React from "react";
 import Cafe from "./Cafe.js";
 import Relax from "./relax.js";
+import { Link, NavLink } from "react-router-dom"
+
 
 class Page3 extends React.Component {
   render() {
@@ -27,9 +29,11 @@ class Page3 extends React.Component {
                 </ul>
               </h4>
               <div className="ms-auto">
+                <Link to="/register">
                 <button className=" btn bg-light text-dark text-center mt-3 mb-3 fw-bold">
                   Register Today
                 </button>
+                </Link>
               </div>
             </div>
           </div>

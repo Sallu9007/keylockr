@@ -167,6 +167,7 @@ router.get("/getAllPass", async(req,res)=>{
     try {
         const UserId = await req.header('userID')
         const AllPass = await userPass.find({UserId:UserId});
+        // const AllPass = await userPass.find({});
         res.send({status:"ok", data:AllPass})
     } catch (error) {
         console.log("error in fetch");
@@ -186,13 +187,13 @@ router.get("/getAllUsers", authenticate, async(req,res)=>{
 })
 
 router.post("/deletePass", async(req,res)=>{
-    console.log(req.body.id);
+    console.log(`this is req.body.id - ${req.body.id}`);
+    // console.log(`THIS IS QUERYID${req.query.id}`);
     const PassId = req.body.id
-    console.log(PassId);
+    console.log(`this is PassID -${PassId}`);
     try {
-        userPass.deleteOne({_id:PassId},function(err,res){
-            console.log(err);
-        })
+        console.log("here");
+        await userPass.deleteOne({_id:PassId})
         res.send({status:"ok", data:"Deleted"})
 
         

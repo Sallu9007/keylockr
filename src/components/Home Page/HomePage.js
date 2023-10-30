@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Navbar from "../Navbar/Navbar";
 import Header from '../Navbar/Header';
-import { useNavigate, NavLink } from 'react-router-dom';
+import { useNavigate, NavLink, Link } from 'react-router-dom';
 import { LoginContext } from '../ContextProvider/context';
 import { CircularProgress, Box } from '@mui/material';
 import { faEye, faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -85,14 +85,9 @@ const HomePage = () => {
             // console.log(data, "Passwords");
             setData(data.data)
         })
-    // }, [])
 
 
     }
-
-    // useEffect(() => {
-    //     getPasswords()
-    // }, [])
 
     const addpass = () => {
         history("/generatepass")
@@ -127,7 +122,7 @@ const HomePage = () => {
     const deletePass=(id,name)=>{
         console.log(id);
         if(window.confirm(`Are you Sure You want to delete "${name}"`)){
-            fetch("/deletePass",{
+            fetch(`/deletePass`,{
                 method:"POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -139,11 +134,9 @@ const HomePage = () => {
             .then((res)=>res.json())
             .then((data)=>{
                 alert(data.data)
+                getPasswords()
             })
-        }else{
-
         }
-
     }
 
     const togglePasswordVisibility = (index) => {
@@ -168,29 +161,32 @@ const HomePage = () => {
             <>
             <Navbar />
             {/* {getPasswords} */}
-            <button className='btn'onClick={addpass}>Add Password</button>
-            <button className='btn'onClick={getPasswords}>Show Passwords</button>
             <div className='d-flex justify-content-center'>
                 {/* <h2>Home Page</h2> */}
                 <table style={{width: 700}}>
                     <tr>
-                        <th>Website</th>
-                        <th>PassWord {load.validUserOne}</th>
-                        <th className='d-flex justify-content-center'>Action</th>
+                        <th className='p-3'>Website</th>
+                        <th className='p-3'>PassWord {load.validUserOne}</th>
+                        <th className='d-flex justify-content-center p-3'>Action</th>
                     </tr>
                     {data?.map((website,index)=>{
                         return(
                             <tr key={index} style={{height: 100}}>
-                                <td><a href={website.weblink}>{website.webname}</a></td>
-                                <td><div>{showPasswords.includes(index) ? getDecryptedValue(website) : '******'}</div></td>
-                                <td><div className='d-flex justify-content-center'><i className='me-4 '  onClick={() => togglePasswordVisibility(index)}>{showPasswords.includes(index) ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} style={{color:"#ff4d00"}} />}</i>
-                                <i className='me-4'  onClick={() => copyToClipboard(getDecryptedValue(website))}><FontAwesomeIcon icon={faCopy} /></i>
-                                <i className='me-4' onClick={() => deletePass(website._id,website.webname)}><FontAwesomeIcon icon={faTrash}/></i></div>
+                                <td className='p-3'><a href={website.weblink}>{website.webname}</a></td>
+                                <td className='p-3'><div>{showPasswords.includes(index) ? getDecryptedValue(website) : '******'}</div></td>
+                                <td className='p-3'><div className='d-flex justify-content-center'><i className='me-4 '  onClick={() => togglePasswordVisibility(index)}>{showPasswords.includes(index) ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} style={{color:"#ff4d00"}} />}</i>
+                                <i className='me-4'  onClick={() => copyToClipboard(getDecryptedValue(website))}><FontAwesomeIcon icon={faCopy} style={{color:"#4d87ea"}} /></i>
+                                <i className='me-4' onClick={() => deletePass(website._id,website.webname)}><FontAwesomeIcon icon={faTrash} style={{color:"#ed2626"}}/></i></div>
                                 </td>                               
                             </tr>
                         )
                     })}
                 </table>
+            </div>
+            <div className='d-flex justify-content-center'>
+            <button className='btn bg-primary text-dark text-center col-2 mt-3 fw-bold'onClick={addpass}>Add Password</button>
+            <div className='col-2'></div>
+            <button className='btn bg-primary text-dark text-center col-2 mt-3 fw-bold'onClick={getPasswords}>Show Passwords</button>
             </div>
             </>
             ):

@@ -1,5 +1,7 @@
 import React from "react";
 import HomeImg from "./HomeImg.js";
+import { Link, NavLink } from "react-router-dom"
+
 
 class Page1 extends React.Component {
   render() {
@@ -15,9 +17,11 @@ class Page1 extends React.Component {
               Your smartest move <br />
               to a Password[less] Future
             </h2>
+          <Link to="/register">
             <button className="btn bg-primary text-dark text-center ms-auto mt-3 fw-bold">
               Try For Free!
             </button>
+            </Link>
           </div>
           <HomeImg />
         </div>

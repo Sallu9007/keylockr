@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
 // import { NavLink } from "react-router-dom"
+import { useNavigate, NavLink } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Navbar from "../Navbar/Navbar";
+import { ArrowLeft } from '@mui/icons-material';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 
 
 const GeneratePass = () => {
@@ -10,6 +14,8 @@ const GeneratePass = () => {
     const [passShow, setPassShow] = useState(false);
     const [cpassShow, setCPassShow] = useState(false);
     const [UserData, setUserData] = useState([]);
+    const history = useNavigate()
+
 
     const [inpval, setInpval] = useState({
         webname: "",
@@ -49,6 +55,9 @@ const GeneratePass = () => {
             }
         })
     };
+    const Back = () => {
+        history("/home")
+    }
 
     const addPassworddata = async (e) => {
         e.preventDefault();
@@ -103,13 +112,11 @@ const GeneratePass = () => {
             });
 
             const res = await data.json();
-            // console.log(data);
-            // console.log(res);
-            // console.log(cookie.usercookie);
 
 
 
             if (res.status === 201) {
+                // history("/home")
                 toast.success("Password Successfully Added 😃!", {
                     position: "top-center"
                 });
@@ -144,6 +151,8 @@ const GeneratePass = () => {
 return (
       <>
         <Navbar />
+        {/* <i className='me-4' onClick={Back}><FontAwesomeIcon icon={ArrowLeft} style={{color:"#4d87ea"}} /></i> */}
+        {/* <button className='btn bg-primary text-dark text-center col-2 mt-3 fw-bold'onClick={Back}><FontAwesomeIcon icon={ArrowLeft} style={{color:"#4d87ea"}} /></button> */}
             <section>
                 <div className="form_data">
                     <div className="form_heading">
@@ -152,8 +161,8 @@ return (
 
                     <form>
                         <div className="form_input">
-                            <label htmlFor="webname">Website Name</label>
-                            <input type="text" onChange={setVal} value={inpval.webname} name="webname" id="webname" placeholder='Please Enter the Website name to save the PassWord ' />
+                            <label htmlFor="webname">PassWord Name</label>
+                            <input type="text" onChange={setVal} value={inpval.webname} name="webname" id="webname" placeholder='Please Enter PassWord Name  ' />
                         </div>
                         <div className="form_input">
                             <label htmlFor="weblink">Website Link</label>

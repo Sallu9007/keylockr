@@ -70,6 +70,7 @@ const Login = () => {
             if(res.status === 201){
                 
                 localStorage.setItem("usersdatatoken",res.result.token);
+                // localStorage.setItem("userLoggedin",res.result.token);
                 // console.log(localStorage.getItem('usersdatatoken'));
                 history("/home");
                 setInpval({...inpval,email:"",password:""});
