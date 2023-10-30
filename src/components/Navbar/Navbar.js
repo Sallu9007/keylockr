@@ -2,7 +2,6 @@ import React from "react";
 // import nav from './Navbar.css';
 import style from "../../bootstrap/css/bootstrap.min.css";
 import Header from "./Header";
-import HomePage from "../Home Page/HomePage";
 import OnboardingNavigators from "./OnboardingNavigators.js";
 import { render } from "@testing-library/react";
 

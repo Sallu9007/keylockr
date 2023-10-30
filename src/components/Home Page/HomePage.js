@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Navbar from "../Navbar/Navbar";
-import Header from '../Navbar/Header';
-import { useNavigate, NavLink, Link } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import { LoginContext } from '../ContextProvider/context';
 import { CircularProgress, Box } from '@mui/material';
 import { faEye, faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -9,7 +8,7 @@ import { faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
 import "../Signup/mix.css"
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const CryptoJS = require("crypto-js")
 

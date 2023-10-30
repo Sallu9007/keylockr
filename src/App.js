@@ -5,7 +5,7 @@ import Register from "./components/Signup/Register";
 import Login from "./components/Signup/Login";
 import HomePage from "./components/Home Page/HomePage";
 import GeneratePass from "./components/generatePassword/GeneratePass";
-import Error from "./components/Error/error";
+import Error from "./components/Error/Error";
 import CircularProgress  from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import { LoginContext } from "./components/ContextProvider/context";

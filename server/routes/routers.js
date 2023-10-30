@@ -104,12 +104,6 @@ router.post("/generatepass",async(req,res)=>{
     }
 
     try {
-
-        // const preuser = await userPass.findOne({ weblink: weblink });
-
-        // if (preuser) {
-        //     res.status(422).json({ error: "This weblink Already Exist" })
-        // } else if (password !== cpassword) {
         if (password !== cpassword) {
             res.status(422).json({ error: "Password and Confirm Password Not Match" })
         } else {
@@ -137,10 +131,6 @@ router.post("/generatepass",async(req,res)=>{
 router.get("/validuser", authenticate, async(req, res) => {
     try {
         const validUserOne = await userdb.findOne({_id: req.userId});
-        // console.log(req.userId);
-        // console.log(userId);
-        // console.log(_id);
-        // console.log(validUserOne._id);
         res.status(201).json({status: 201, validUserOne});
     } catch (error) {
         res.status(401).json({status: 401, error});
@@ -167,7 +157,6 @@ router.get("/getAllPass", async(req,res)=>{
     try {
         const UserId = await req.header('userID')
         const AllPass = await userPass.find({UserId:UserId});
-        // const AllPass = await userPass.find({});
         res.send({status:"ok", data:AllPass})
     } catch (error) {
         console.log("error in fetch");
@@ -176,10 +165,7 @@ router.get("/getAllPass", async(req,res)=>{
 
 router.get("/getAllUsers", authenticate, async(req,res)=>{
     try {
-        // res.send(`id:${req.rootUser.userId}`)
-        // console.log(`id:${req.rootUser.userId}`)
         const AllPass = await userdb.find({});
-        // console.log(AllPass);
         res.send({status:"ok", data:AllPass})
     } catch (error) {
         console.log("error in fetch");
@@ -188,7 +174,6 @@ router.get("/getAllUsers", authenticate, async(req,res)=>{
 
 router.post("/deletePass", async(req,res)=>{
     console.log(`this is req.body.id - ${req.body.id}`);
-    // console.log(`THIS IS QUERYID${req.query.id}`);
     const PassId = req.body.id
     console.log(`this is PassID -${PassId}`);
     try {

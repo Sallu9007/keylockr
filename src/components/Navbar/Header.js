@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import Navbar from "../Navbar/Navbar";
 import { Avatar } from "@mui/material";
 import { LoginContext } from "../ContextProvider/context";
 import Menu from "@mui/material/Menu";

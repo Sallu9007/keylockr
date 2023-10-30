@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from 'react'
-// import { NavLink } from "react-router-dom"
-import { useNavigate, NavLink } from 'react-router-dom';
+import React, {useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Navbar from "../Navbar/Navbar";
-import { ArrowLeft } from '@mui/icons-material';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 
@@ -13,7 +10,6 @@ const GeneratePass = () => {
 
     const [passShow, setPassShow] = useState(false);
     const [cpassShow, setCPassShow] = useState(false);
-    const [UserData, setUserData] = useState([]);
     const history = useNavigate()
 
     const [inpval, setInpval] = useState({
@@ -37,14 +33,10 @@ const GeneratePass = () => {
     
         const UserDatajs = await res.json();
         const User_id = UserDatajs.validUserOne._id
-        // console.log(`this is ID: ${UserDatajs.validUserOne._id}`);
-        // console.log(`this is ID: ${User_id}`);
         return(User_id)
-        // console.log(load.validUserOne._id);
     }
 
     const setVal = (e) => {
-        // console.log(e.target.value);
         const { name, value } = e.target;
 
         setInpval(() => {
@@ -54,16 +46,10 @@ const GeneratePass = () => {
             }
         })
     };
-    const Back = () => {
-        history("/home")
-    }
 
     const addPassworddata = async (e) => {
         e?.preventDefault();
-        // console.log("here");
-        // const userId = req.userId;
         const UserId = await getUserData()
-        // console.log(`i got this id${UserId}`);
         const { webname, weblink, password, cpassword } = inpval;
         
         if (webname === "") {
